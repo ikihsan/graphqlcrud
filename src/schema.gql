@@ -1,0 +1,97 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type StateModel {
+  id: ID!
+  name: StateNames!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+enum StateNames {
+  Maharashtra
+  Bihar
+  Chhattisgarh
+  Karnataka
+  Manipur
+  Arunachal_Pradesh
+  Assam
+  Gujarat
+  Punjab
+  Mizoram
+  Andhra_Pradesh
+  West_Bengal
+  Goa
+  Haryana
+  Himachal_Pradesh
+  Kerala
+  Rajasthan
+  Jharkhand
+  Madhya_Pradesh
+  Odisha
+  Nagaland
+  TamilNadu
+  Uttar_Pradesh
+  Telangana
+  Meghalaya
+  Sikkim
+  Tripura
+  Uttarakhand
+  Jammu_and_Kashmir
+  Delhi
+  Lakshadweep
+  Puducherry
+  Ladakh
+  Chandigarh
+  Andaman_and_Nicobar_Islands
+  Dadra_and_Nagar_Haveli_and_Daman_and_Diu
+  PAN_INDIA
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LocationModel {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  stateId: String
+  state: StateModel
+}
+
+type Query {
+  liststate: [StateModel!]!
+  listlocation: [LocationModel!]!
+  listUnique(where: locationwhereInput!): LocationModel!
+}
+
+input locationwhereInput {
+  stateId: String
+  id: String
+}
+
+type Mutation {
+  CreateState(data: CreateStateInput!): StateModel!
+  createlocation(data: CreateLocationInput!, where: locationwhereInput!): LocationModel!
+  updatelocation(data: locationUpdateInput!, where: locationwhereInput!): LocationModel!
+  deleteLocation(where: locationwhereInput!): LocationModel!
+}
+
+input CreateStateInput {
+  name: StateNames!
+}
+
+input CreateLocationInput {
+  name: String!
+}
+
+input locationUpdateInput {
+  name: String!
+  isDeleted: Boolean!
+}

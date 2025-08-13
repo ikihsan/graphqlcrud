@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum StateNames {
+  Maharashtra
+  Bihar
+  Chhattisgarh
+  Karnataka
+  Manipur
+  Arunachal_Pradesh
+  Assam
+  Gujarat
+  Punjab
+  Mizoram
+  Andhra_Pradesh
+  West_Bengal
+  Goa
+  Haryana
+  Himachal_Pradesh
+  Kerala
+  Rajasthan
+  Jharkhand
+  Madhya_Pradesh
+  Odisha
+  Nagaland
+  TamilNadu
+  Uttar_Pradesh
+  Telangana
+  Meghalaya
+  Sikkim
+  Tripura
+  Uttarakhand
+  Jammu_and_Kashmir
+  Delhi
+  Lakshadweep
+  Puducherry
+  Ladakh
+  Chandigarh
+  Andaman_and_Nicobar_Islands
+  Dadra_and_Nagar_Haveli_and_Daman_and_Diu
+  PAN_INDIA
+}
+
+model State {
+  id         String     @id @default(cuid())
+  name       StateNames @unique
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  isDeleted  Boolean    @default(false)
+  locations  Location[]
+}
+
+model Location {
+  id         String    @id @default(cuid())
+  name       String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  isDeleted  Boolean   @default(false)
+  stateId    String
+  state      State     @relation(fields: [stateId], references: [id], onDelete: Cascade)
+
+  @@index([stateId])
+}
