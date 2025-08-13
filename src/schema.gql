@@ -65,10 +65,84 @@ type LocationModel {
   state: StateModel
 }
 
+type SellerModel {
+  id: ID!
+  name: String!
+  contactPerson: String!
+  GSTNumber: String!
+  billingContactPerson: String!
+  mobile: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+type VehicleCategoryModel {
+  id: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+type EventModel {
+  id: String!
+  eventNo: Float!
+  eventCategory: EventCategory!
+  startDate: DateTime!
+  endDate: DateTime!
+  firstVehicleEndDate: DateTime
+  sellerId: String
+  seller: SellerModel
+  vehicleCategoryId: String
+  vehicleCategory: VehicleCategoryModel
+  locationId: String
+  location: LocationModel
+  noOfBids: Float
+  status: EventStatusType
+  currentStatus: EventCurrentStatus
+  downloadableFile_filename: String
+  termsAndConditions: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  bidLock: EventBidLockType
+  extraTimeTrigerIn: Float
+  extraTime: Float
+  vehicleLiveTimeIn: Float
+  gapInBetweenVehicles: Float
+  vehiclesCount: Float
+  isDeleted: Boolean!
+}
+
+enum EventCategory {
+  TwoWheeler
+  threeWheeler
+  fourWheeler
+}
+
+enum EventStatusType {
+  active
+  inactive
+}
+
+enum EventCurrentStatus {
+  pending
+  ongoing
+  completed
+}
+
+enum EventBidLockType {
+  unlocked
+  locked
+}
+
 type Query {
   liststate: [StateModel!]!
   listlocation: [LocationModel!]!
   listUnique(where: locationwhereInput!): LocationModel!
+  listAllSeller: [SellerModel!]!
+  listVehicleCategory: [VehicleCategoryModel!]!
+  listevents: [EventModel!]!
 }
 
 input locationwhereInput {
@@ -81,6 +155,9 @@ type Mutation {
   createlocation(data: CreateLocationInput!, where: locationwhereInput!): LocationModel!
   updatelocation(data: locationUpdateInput!, where: locationwhereInput!): LocationModel!
   deleteLocation(where: locationwhereInput!): LocationModel!
+  CreateSeller(data: CreateSellerInput!): SellerModel!
+  CreateVehicleCategory(data: CreateVehicleCategoryInput!): VehicleCategoryModel!
+  CreateEvent(data: CreateEventInput!, where: eventwhereInput!): EventModel!
 }
 
 input CreateStateInput {
@@ -94,4 +171,34 @@ input CreateLocationInput {
 input locationUpdateInput {
   name: String!
   isDeleted: Boolean!
+}
+
+input CreateSellerInput {
+  name: String!
+  contactPerson: String!
+  GSTNumber: String!
+  billingContactPerson: String!
+  mobile: String!
+}
+
+input CreateVehicleCategoryInput {
+  name: String!
+}
+
+input CreateEventInput {
+  eventCategory: EventCategory!
+  startDate: DateTime!
+  endDate: DateTime!
+  firstVehicleEndDate: DateTime
+  noOfBids: Float
+  status: EventStatusType
+  currentStatus: EventCurrentStatus
+  bidLock: EventBidLockType
+  vehiclesCount: Float
+}
+
+input eventwhereInput {
+  sellerId: String
+  vehicleCategoryId: String
+  locationId: String
 }

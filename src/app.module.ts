@@ -7,6 +7,10 @@ import { StateModule } from './state/state.module';
 import { LocationModule } from './location/location.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApolloServerPlugin } from '@apollo/server';
+import { SellerModule } from './seller/seller.module';
+import { VehicleCategoryModule } from './vehicle-category/vehicle-category.module';
+import { EventModule } from './event/event.module';
+import { VehicleModule } from './vehicle/vehicle.module';
 
   
 
@@ -22,5 +26,9 @@ import { ApolloServerPlugin } from '@apollo/server';
     PrismaModule,
     StateModule,
     LocationModule,
+    SellerModule,
+    VehicleCategoryModule,
+    EventModule,
+    VehicleModule,
   ],})
 export class AppModule {}

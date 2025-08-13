@@ -53,12 +53,39 @@ enum StateNames {
   PAN_INDIA
 }
 
+enum EventCategory {
+  TwoWheeler
+  threeWheeler
+  fourWheeler
+}
+
+enum EventStatusType {
+  active
+  inactive
+}
+
+enum EventCurrentStatus {
+  pending
+  ongoing
+  completed
+}
+
+enum EventBidLockType {
+  unlocked
+  locked
+}
+
+// -----------------------------
+// MODELS
+// -----------------------------
+
 model State {
   id         String     @id @default(cuid())
   name       StateNames @unique
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   isDeleted  Boolean    @default(false)
+
   locations  Location[]
 }
 
@@ -68,8 +95,145 @@ model Location {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   isDeleted  Boolean   @default(false)
+
   stateId    String
   state      State     @relation(fields: [stateId], references: [id], onDelete: Cascade)
 
+  events     Event[]
+
   @@index([stateId])
+}
+
+model Seller { 
+  id                   String    @id @default(cuid())
+  name                 String    @unique @default("")
+  contactPerson        String    @default("")
+  GSTNumber            String    @default("")
+  billingContactPerson String    @default("")
+  mobile               String    @default("")
+  createdAt            DateTime? @default(now())
+  updatedAt            DateTime? @updatedAt
+  isDeleted            Boolean   @default(false)
+
+  events               Event[]
+}
+
+model VehicleCategory {
+  id            String    @id @default(cuid())
+  name          String    @unique @default("")
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+  isDeleted     Boolean   @default(false)
+
+  events        Event[]
+}
+
+model Event {
+  id                        String              @id @default(cuid())
+  eventNo                   Int                 @default(autoincrement())
+  eventCategory             EventCategory
+  startDate                 DateTime
+  endDate                   DateTime
+  firstVehicleEndDate       DateTime?
+
+  sellerId                  String?
+  seller                    Seller?             @relation(fields: [sellerId], references: [id], onDelete: SetNull)
+
+  vehicleCategoryId         String?
+  vehicleCategory           VehicleCategory?    @relation(fields: [vehicleCategoryId], references: [id], onDelete: SetNull)
+
+  locationId                String?
+  location                  Location?           @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  noOfBids                  Int                 @default(10)
+  status                    EventStatusType?    @default(active)
+  currentStatus             EventCurrentStatus?
+  downloadableFile_filename String?
+  termsAndConditions        String?             @default("")
+  createdAt                 DateTime?           @default(now())
+  updatedAt                 DateTime?           @updatedAt
+  bidLock                   EventBidLockType?   @default(unlocked)
+  extraTimeTrigerIn         Int?                 @default(2)
+  extraTime                 Int?                 @default(2)
+  vehicleLiveTimeIn         Int?                 @default(0)
+  gapInBetweenVehicles      Int?                 @default(0)
+  vehiclesCount             Int?
+  isDeleted                 Boolean              @default(false)
+
+  vehicles                  Vehicle[]
+}
+
+model Vehicle {
+  id                     String     @id @default(cuid())
+  vehicleIndexNo         Int        @default(autoincrement())
+  registrationNumber     String
+  bidTimeExpire          DateTime
+  bidStartTime           DateTime
+
+  eventId                String?
+  event                  Event?     @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  loanAgreementNo        String
+  registeredOwnerName    String?    @default("")
+  quoteIncreament        Int?       @default(1000)
+  make                   String?    @default("")
+  model                  String?    @default("")
+  varient                String?    @default("")
+  category               String?    @default("")
+  fuel                   String?    @default("")
+  type                   String?    @default("")
+  rcStatus               String?    @default("")
+  YOM                    Int?       @default(0)
+  ownership              Int?       @default(0)
+  mileage                Int?       @default(0)
+  kmReading              Int?       @default(0)
+  insuranceStatus        String?    @default("")
+  yardLocation           String?    @default("")
+  startPrice             Float?     @default(0)
+  reservePrice           Float?     @default(0)
+  repoDt                 String?    @default("")
+  veicleLocation         String?    @default("")
+  vehicleRemarks         String?    @default("")
+  auctionManager         String?    @default("")
+  parkingCharges         String?    @default("")
+  insurance              String?    @default("")
+  insuranceValidTill     String?    @default("")
+  tax                    String?    @default("")
+  taxValidityDate        String?    @default("")
+  fitness                String?    @default("")
+  permit                 String?    @default("")
+  engineNo               String?    @default("")
+  chassisNo              String?    @default("")
+  image                  String?    @default("")
+  inspectionLink         String?    @default("")
+  autobseContact         String?    @default("")
+  autobse_contact_person String?    @default("")
+  vehicleCondition       String?    @default("")
+  powerSteering          String?    @default("")
+  shape                  String?    @default("")
+  color                  String?    @default("")
+  state                  String?    @default("")
+  city                   String?    @default("")
+  area                   String?    @default("")
+  paymentTerms           String?    @default("")
+  dateOfRegistration     String?    @default("")
+  hypothication          String?    @default("")
+  climateControl         String?    @default("")
+  doorCount              Int?       @default(0)
+  gearBox                String?    @default("")
+  buyerFees              String?    @default("")
+  rtoFine                String?    @default("")
+  parkingRate            String?    @default("")
+  approxParkingCharges   String?    @default("")
+  clientContactPerson    String?    @default("")
+  clientContactNo        String?    @default("")
+  additionalRemarks      String?    @default("")
+  lotNumber              Int?
+  createdAt              DateTime?  @default(now())
+  updatedAt              DateTime?  @updatedAt
+  isDeleted              Boolean    @default(false)
+  address                String?    @default("")
+  pincode                String?    @default("")
+  yardName               String?    @default("")
+  yardState              String?    @default("")
 }

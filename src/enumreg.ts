@@ -40,6 +40,27 @@ export enum StateNames {
   Dadra_and_Nagar_Haveli_and_Daman_and_Diu = 'Dadra_and_Nagar_Haveli_and_Daman_and_Diu',
   PAN_INDIA = 'PAN_INDIA',
 }
-
+export enum EventCategory {
+  TwoWheeler = 'TwoWheeler',
+  threeWheeler = 'threeWheeler',
+  fourWheeler = 'fourWheeler',
+}
+export enum EventStatusType {
+  active = 'active',
+  inactive = 'inactive',
+}
+export enum EventCurrentStatus {
+  pending = 'pending',
+  ongoing = 'ongoing',
+  completed = 'completed',
+}
+export enum EventBidLockType {
+  unlocked = 'unlocked',
+  locked = 'locked',
+}
+registerEnumType(EventCategory, { name: "EventCategory" });
+registerEnumType(EventStatusType, { name: "EventStatusType" });
+registerEnumType(EventCurrentStatus, { name: "EventCurrentStatus" });
+registerEnumType(EventBidLockType, { name: "EventBidLockType" });
 registerEnumType(StateNames, { name: "StateNames" });
 
