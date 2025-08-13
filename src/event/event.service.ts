@@ -21,7 +21,7 @@ export class EventService {
         status: dataa.status,
         currentStatus: dataa.currentStatus,
         bidLock: dataa.bidLock,
-        vehiclesCount: dataa.vehiclesCount,
+      
       },
       include: {
         seller: true,

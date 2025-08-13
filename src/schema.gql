@@ -136,6 +136,79 @@ enum EventBidLockType {
   locked
 }
 
+type VehicleModel {
+  id: String!
+  vehicleIndexNo: Float!
+  registrationNumber: String!
+  bidTimeExpire: DateTime!
+  bidStartTime: DateTime!
+  eventId: String
+  event: EventModel
+  loanAgreementNo: String!
+  registeredOwnerName: String
+  quoteIncreament: Float
+  make: String
+  model: String
+  varient: String
+  category: String
+  fuel: String
+  type: String
+  rcStatus: String
+  YOM: Float
+  ownership: Float
+  mileage: Float
+  kmReading: Float
+  insuranceStatus: String
+  yardLocation: String
+  startPrice: Float
+  reservePrice: Float
+  repoDt: String
+  veicleLocation: String
+  vehicleRemarks: String
+  auctionManager: String
+  parkingCharges: String
+  insurance: String
+  insuranceValidTill: String
+  tax: String
+  taxValidityDate: String
+  fitness: String
+  permit: String
+  engineNo: String
+  chassisNo: String
+  image: String
+  inspectionLink: String
+  autobseContact: String
+  autobse_contact_person: String
+  vehicleCondition: String
+  powerSteering: String
+  shape: String
+  color: String
+  state: String
+  city: String
+  area: String
+  paymentTerms: String
+  dateOfRegistration: String
+  hypothication: String
+  climateControl: String
+  doorCount: Float
+  gearBox: String
+  buyerFees: String
+  rtoFine: String
+  parkingRate: String
+  approxParkingCharges: String
+  clientContactPerson: String
+  clientContactNo: String
+  additionalRemarks: String
+  lotNumber: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+  isDeleted: Boolean!
+  address: String
+  pincode: String
+  yardName: String
+  yardState: String
+}
+
 type Query {
   liststate: [StateModel!]!
   listlocation: [LocationModel!]!
@@ -143,6 +216,7 @@ type Query {
   listAllSeller: [SellerModel!]!
   listVehicleCategory: [VehicleCategoryModel!]!
   listevents: [EventModel!]!
+  Searchvehicle(keyword: String!): [VehicleModel!]!
 }
 
 input locationwhereInput {
@@ -158,6 +232,7 @@ type Mutation {
   CreateSeller(data: CreateSellerInput!): SellerModel!
   CreateVehicleCategory(data: CreateVehicleCategoryInput!): VehicleCategoryModel!
   CreateEvent(data: CreateEventInput!, where: eventwhereInput!): EventModel!
+  createVehicle(data: CreateVehicleInput!): VehicleModel!
 }
 
 input CreateStateInput {
@@ -194,11 +269,19 @@ input CreateEventInput {
   status: EventStatusType
   currentStatus: EventCurrentStatus
   bidLock: EventBidLockType
-  vehiclesCount: Float
 }
 
 input eventwhereInput {
   sellerId: String
   vehicleCategoryId: String
   locationId: String
+}
+
+input CreateVehicleInput {
+  registrationNumber: String!
+  loanAgreementNo: String!
+  registeredOwnerName: String!
+  eventId: String!
+  bidTimeExpire: DateTime!
+  bidStartTime: DateTime!
 }

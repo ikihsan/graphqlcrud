@@ -157,7 +157,7 @@ model Event {
   extraTime                 Int?                 @default(2)
   vehicleLiveTimeIn         Int?                 @default(0)
   gapInBetweenVehicles      Int?                 @default(0)
-  vehiclesCount             Int?
+  vehiclesCount             Int?                @default(0)
   isDeleted                 Boolean              @default(false)
 
   vehicles                  Vehicle[]

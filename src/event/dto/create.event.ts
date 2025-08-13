@@ -30,9 +30,5 @@ export class CreateEventInput {
 
     @Field(()=>EventBidLockType,{nullable:true})
     bidLock ?: EventBidLockType
-
-    @Field({nullable:true})
-    vehiclesCount?: number
-
     
 }
