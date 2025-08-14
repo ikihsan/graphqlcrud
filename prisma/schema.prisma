@@ -237,3 +237,15 @@ model Vehicle {
   yardName               String?    @default("")
   yardState              String?    @default("")
 }
+model user {
+  username    String    @unique
+  userid    String    @default(cuid()) @id
+  email     String    @unique
+  password   String   
+  role      role      @default(user)
+}
+enum role {
+  user
+  Admin
+  visitor
+}

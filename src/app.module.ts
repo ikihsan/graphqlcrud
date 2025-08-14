@@ -11,6 +11,9 @@ import { SellerModule } from './seller/seller.module';
 import { VehicleCategoryModule } from './vehicle-category/vehicle-category.module';
 import { EventModule } from './event/event.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
   
 
@@ -30,5 +33,10 @@ import { VehicleModule } from './vehicle/vehicle.module';
     VehicleCategoryModule,
     EventModule,
     VehicleModule,
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true, // makes ConfigService available everywhere
+    }),
   ],})
 export class AppModule {}

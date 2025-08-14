@@ -58,9 +58,15 @@ export enum EventBidLockType {
   unlocked = 'unlocked',
   locked = 'locked',
 }
+export enum Role{
+  user='user',
+  admin='admin',
+  visitor='visitor',
+}
 registerEnumType(EventCategory, { name: "EventCategory" });
 registerEnumType(EventStatusType, { name: "EventStatusType" });
 registerEnumType(EventCurrentStatus, { name: "EventCurrentStatus" });
 registerEnumType(EventBidLockType, { name: "EventBidLockType" });
 registerEnumType(StateNames, { name: "StateNames" });
+registerEnumType(Role,{name:"Role"});
 

@@ -209,6 +209,13 @@ type VehicleModel {
   yardState: String
 }
 
+type Usermodel {
+  userid: String!
+  username: String!
+  email: String!
+  password: String!
+}
+
 type Query {
   liststate: [StateModel!]!
   listlocation: [LocationModel!]!
@@ -233,6 +240,8 @@ type Mutation {
   CreateVehicleCategory(data: CreateVehicleCategoryInput!): VehicleCategoryModel!
   CreateEvent(data: CreateEventInput!, where: eventwhereInput!): EventModel!
   createVehicle(data: CreateVehicleInput!): VehicleModel!
+  createUser(data: UserInput!): Usermodel!
+  login(data: UserloginInput!): Usermodel!
 }
 
 input CreateStateInput {
@@ -284,4 +293,15 @@ input CreateVehicleInput {
   eventId: String!
   bidTimeExpire: DateTime!
   bidStartTime: DateTime!
+}
+
+input UserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UserloginInput {
+  userormail: String!
+  password: String!
 }
