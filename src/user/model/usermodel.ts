@@ -1,4 +1,5 @@
 import { ObjectType,Field } from "@nestjs/graphql";
+import { Role } from "src/enumreg";
 
 @ObjectType()
 export class Usermodel {
@@ -7,12 +8,11 @@ export class Usermodel {
     userid?:string;
 
     @Field()
-    username:string;
+    username: string;
 
     @Field()
-    email:string;
-
-    @Field()
-    password:string;
+    email: string;
+    @Field(()=>Role)
+    role: Role;
 
 }

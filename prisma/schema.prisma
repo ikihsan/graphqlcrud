@@ -242,10 +242,10 @@ model user {
   userid    String    @default(cuid()) @id
   email     String    @unique
   password   String   
-  role      role      @default(user)
+  role      Role?      @default(user)
 }
-enum role {
+enum Role {
   user
-  Admin
+  admin
   visitor
 }

@@ -11,9 +11,9 @@ import { SellerModule } from './seller/seller.module';
 import { VehicleCategoryModule } from './vehicle-category/vehicle-category.module';
 import { EventModule } from './event/event.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 
   
 
@@ -23,6 +23,7 @@ import { ConfigModule } from '@nestjs/config';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       introspection: true,
+      context: ({ req }) => ({ req }),
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault() as unknown as ApolloServerPlugin],
     }),
@@ -38,5 +39,6 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true, // makes ConfigService available everywhere
     }),
+    
   ],})
 export class AppModule {}

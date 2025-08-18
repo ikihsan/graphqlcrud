@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSellerInput } from './dto/create-seller';
 
 @Injectable()
 export class SellerService {
 constructor(private Prisma: PrismaService) {}
+
 
 async listAllSeller(){
     return this.Prisma.seller.findMany();

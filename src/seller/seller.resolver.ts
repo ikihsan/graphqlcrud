@@ -4,11 +4,13 @@ import { Query, Mutation } from '@nestjs/graphql';
 import { SellerModel } from './model/seller-model';
 import { CreateSellerInput } from './dto/create-seller';
 import { Args } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/gqlguard';
 
 @Resolver(()=> SellerModel)
 export class SellerResolver {
   constructor(private readonly sellerService: SellerService) {}
-
+@UseGuards(GqlAuthGuard)
   @Query(()=> [SellerModel])
   async listAllSeller() {
     return this.sellerService.listAllSeller();

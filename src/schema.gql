@@ -209,13 +209,6 @@ type VehicleModel {
   yardState: String
 }
 
-type Usermodel {
-  userid: String!
-  username: String!
-  email: String!
-  password: String!
-}
-
 type Query {
   liststate: [StateModel!]!
   listlocation: [LocationModel!]!
@@ -240,8 +233,10 @@ type Mutation {
   CreateVehicleCategory(data: CreateVehicleCategoryInput!): VehicleCategoryModel!
   CreateEvent(data: CreateEventInput!, where: eventwhereInput!): EventModel!
   createVehicle(data: CreateVehicleInput!): VehicleModel!
-  createUser(data: UserInput!): Usermodel!
-  login(data: UserloginInput!): Usermodel!
+  createUser(data: UserInput!): String!
+  createadmin(data: AdminInput!): String!
+  login(data: UserInput!): String!
+  loginany(data: LoginInput!): String!
 }
 
 input CreateStateInput {
@@ -301,7 +296,20 @@ input UserInput {
   password: String!
 }
 
-input UserloginInput {
+input AdminInput {
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+}
+
+enum Role {
+  user
+  admin
+  visitor
+}
+
+input LoginInput {
   userormail: String!
   password: String!
 }

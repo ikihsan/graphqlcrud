@@ -1,34 +1,49 @@
-import { Mutation, Resolver } from '@nestjs/graphql';
+import { Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import {Usermodel } from './model/user-model';
-import { UserInput} from './dto/usercreateinput';
+import { UserInput } from './dto/usercreate.dto';
 import { Args } from '@nestjs/graphql';
-import { UserloginInput } from './dto/userlogin.input';
+import { AdminInput } from './dto/admincreate.dto';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/gqlguard';
+import * as bcrypt from 'bcrypt';
+import { Usermodel } from './model/usermodel';
+import { Role } from 'src/enumreg';
+import { AuthGuard } from '@nestjs/passport';
+import { LoginInput } from './dto/userlogin.dto';
+
+
 @Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => Usermodel)
-  async createUser(@Args('data') User: UserInput)
-  {
-    const email = User.email;
-    if(! await this.userService.checkmail(email)){
-      return this.userService.create(User);
-    }
+@Mutation(()=>String)
+async createUser(@Args('data') user :UserInput){
+    return await this.userService.create(user);
+}
+@UseGuards(GqlAuthGuard)
+@Mutation(()=>String)
+async createadmin(@Args('data') user :AdminInput){
+  return await this.userService.createadmin(user);
 
+}
+
+@Mutation(()=>String)
+async login (@Args('data') login :UserInput){
+  const validate = await this.userService.validateuser(login.username, login.email);
+  if (!validate) throw new Error('User not found');
+  const token = await this.userService.login(login);
+  return `token : ${token}`;
   }
 
-  @Mutation(()=> Usermodel)
-  async login(@Args('data') login : UserloginInput) {
-      if( await this.userService.checkmail(login.userormail) || await this.userService.checkusername(login.userormail))
-        return this.userService.login(login);
-    
-      }
-        
 
+
+  @Mutation (()=>String)
+  async loginany (@Args('data') login :LoginInput){
     
-    
+    const validate = await this.userService.checkmailorusername(login);
+    if (!validate) throw new Error('User not found');
+    const token = await this.userService.loginany(validate);
+    return "token : "+token;
   }
 
-  
-
+}
