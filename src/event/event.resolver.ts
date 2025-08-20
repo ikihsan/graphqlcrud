@@ -8,6 +8,13 @@ import { RolesGuard } from '../auth/rolesguard';
 import { SetMetadata } from '@nestjs/common';
 import { Role } from 'src/enumreg';
 import { GqlAuthGuard } from 'src/auth/gqlguard';
+// import {EventwithVNo} from './model/eventwithvechileno';
+// import { EventArgs } from './dto/fornew';
+import { eventFilter } from '../common/numberfilter';
+import { skip, take } from 'src/common/skiptake';
+import { keyword } from 'src/vehicle/dto/create.vehicle';
+import { OrderByInput } from './dto/orderbyinput';
+
 
 
 @Resolver()
@@ -19,10 +26,18 @@ export class EventResolver {
     return this.eventService.createEvent(dataa,where);
   }
 
-@UseGuards(GqlAuthGuard,RolesGuard)
-@SetMetadata('roles', [Role.admin])
+// @UseGuards(GqlAuthGuard,RolesGuard)
+// @SetMetadata('roles', [Role.admin])
+
   @Query(()=>[EventModel])
-  async listevents() {
-    return this.eventService.listevents();
+  async listevents(@Args('search',{nullable: true}) search?:string,
+  @Args('where',{nullable: true}) where?: eventFilter,
+   @Args('skip',{nullable: true}) skip?: number,
+    @Args('take',{nullable: true}) take ?: number, @Args('orderBy', {nullable: true}) orderBy ?:OrderByInput ) {
+   const events =await this.eventService.listevents(search,where,skip,take,orderBy);
+   return events;
   }
+
+
+  
 }

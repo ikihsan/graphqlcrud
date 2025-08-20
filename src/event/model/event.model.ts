@@ -3,6 +3,12 @@ import { EventCategory,EventStatusType,EventCurrentStatus,EventBidLockType } fro
 import { SellerModel } from "src/seller/model/seller-model";
 import { VehicleCategoryModel } from "src/vehicle-category/model/vcategory-model";
 import { LocationModel } from "src/location/model/location-model";
+
+@ObjectType()
+export class EventCount {
+  @Field()
+  vehicles: number;
+}
 @ObjectType()
 export class EventModel {
     @Field()
@@ -77,6 +83,8 @@ export class EventModel {
 
     @Field()
     isDeleted: boolean;
+    @Field(() => EventCount, { nullable: true })
+  _count?: EventCount;
 
 
 }

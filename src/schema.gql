@@ -85,6 +85,10 @@ type VehicleCategoryModel {
   isDeleted: Boolean!
 }
 
+type EventCount {
+  vehicles: Float!
+}
+
 type EventModel {
   id: String!
   eventNo: Float!
@@ -112,6 +116,7 @@ type EventModel {
   gapInBetweenVehicles: Float
   vehiclesCount: Float
   isDeleted: Boolean!
+  _count: EventCount
 }
 
 enum EventCategory {
@@ -136,8 +141,8 @@ enum EventBidLockType {
   locked
 }
 
-type VehicleModel {
-  id: String!
+type VehModel {
+  id: String
   vehicleIndexNo: Float!
   registrationNumber: String!
   bidTimeExpire: DateTime!
@@ -215,13 +220,66 @@ type Query {
   listUnique(where: locationwhereInput!): LocationModel!
   listAllSeller: [SellerModel!]!
   listVehicleCategory: [VehicleCategoryModel!]!
-  listevents: [EventModel!]!
-  Searchvehicle(keyword: String!): [VehicleModel!]!
+  listevents(search: String, where: eventFilter, skip: Float, take: Float, orderBy: OrderByInput): [EventModel!]!
+  listvehicle(search: keyword!, orderBy: orderBy! = asc, where: VehicleFilter!): [VehModel!]!
 }
 
 input locationwhereInput {
   stateId: String
   id: String
+}
+
+input eventFilter {
+  startDate: dateFilter
+  endDate: dateFilter
+  eventNo: numberFilter
+}
+
+input dateFilter {
+  gt: DateTime
+  gte: DateTime
+  lt: DateTime
+  lte: DateTime
+  equals: DateTime
+}
+
+input numberFilter {
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  equals: Float
+}
+
+input OrderByInput {
+  eventNo: String = "desc"
+  startDate: String = "desc"
+  endDate: String = "desc"
+}
+
+input keyword {
+  keyword: String
+}
+
+enum orderBy {
+  asc
+  desc
+}
+
+input VehicleFilter {
+  registrationNumber: StringFilter
+  bidStartTime: dateFilter
+  bidTimeExpire: dateFilter
+  loanAgreementNo: StringFilter
+  vehicleIndexNo: numberFilter
+}
+
+input StringFilter {
+  contains: String
+  equals: String
+  startsWith: String
+  endsWith: String
+  in: [String!]
 }
 
 type Mutation {
@@ -232,7 +290,7 @@ type Mutation {
   CreateSeller(data: CreateSellerInput!): SellerModel!
   CreateVehicleCategory(data: CreateVehicleCategoryInput!): VehicleCategoryModel!
   CreateEvent(data: CreateEventInput!, where: eventwhereInput!): EventModel!
-  createVehicle(data: CreateVehicleInput!): VehicleModel!
+  createVehicle(data: inputVehicle!, where: connEvent!): VehModel!
   createUser(data: UserInput!): String!
   createadmin(data: AdminInput!): String!
   login(data: UserInput!): String!
@@ -281,13 +339,15 @@ input eventwhereInput {
   locationId: String
 }
 
-input CreateVehicleInput {
-  registrationNumber: String!
-  loanAgreementNo: String!
-  registeredOwnerName: String!
+input inputVehicle {
+  registrationNumber: String
+  bidStartTime: DateTime
+  bidTimeExpire: DateTime
+  loanAgreementNo: String
+}
+
+input connEvent {
   eventId: String!
-  bidTimeExpire: DateTime!
-  bidStartTime: DateTime!
 }
 
 input UserInput {

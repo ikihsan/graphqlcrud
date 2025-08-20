@@ -12,8 +12,8 @@ async function bootstrap() {
     credentials: true,
   });
    app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,        // strips fields not in DTO
-    forbidNonWhitelisted: true, // throws error on unknown fields
+    // whitelist: true,        // strips fields not in DTO
+    // forbidNonWhitelisted: false, // throws error on unknown fields
     transform: true,        // applies class-transformer (@Transform, @Type)
   }));
   await app.listen(process.env.PORT ?? 3000);

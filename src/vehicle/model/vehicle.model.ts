@@ -2,13 +2,13 @@ import { ObjectType } from "@nestjs/graphql";
 import { Field, ID } from "@nestjs/graphql";
 import { EventModel } from "src/event/model/event.model";
 @ObjectType()
- export class VehicleModel {
+ export class VehModel {
+
+  @Field({ nullable: true })
+  id?: string;
 
   @Field()
-  id: string;
-
-  @Field()
-  vehicleIndexNo: number;
+  vehicleIndexNo?: number;
 
   @Field()
   registrationNumber: string;
@@ -200,7 +200,7 @@ import { EventModel } from "src/event/model/event.model";
   updatedAt?: Date;
 
   @Field()
-  isDeleted: boolean;
+  isDeleted?: boolean;
 
   @Field({ nullable: true })
   address?: string;
@@ -213,5 +213,5 @@ import { EventModel } from "src/event/model/event.model";
 
   @Field({ nullable: true })
   yardState?: string;
-
+ 
  }

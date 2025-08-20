@@ -63,6 +63,12 @@ export enum Role{
   admin='admin',
   visitor='visitor',
 }
+export enum QueryMode1 {
+  sensitive = "sensitive",
+  insensitive = "insensitive",
+}
+registerEnumType(QueryMode1, { name: "QueryMode" });
+
 registerEnumType(EventCategory, { name: "EventCategory" });
 registerEnumType(EventStatusType, { name: "EventStatusType" });
 registerEnumType(EventCurrentStatus, { name: "EventCurrentStatus" });
